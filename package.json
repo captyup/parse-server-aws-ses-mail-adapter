@@ -1,6 +1,6 @@
 {
   "name": "parse-server-aws-ses-mail-adapter",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -33,10 +33,10 @@
     "README.md"
   ],
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=20.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.10.7",
+    "@types/node": "^20.00.0",
     "typescript": "^5.7.3"
   },
   "dependencies": {
