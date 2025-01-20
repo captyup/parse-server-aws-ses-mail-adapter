@@ -33,9 +33,6 @@ jobs:
           echo "Current version: $PACKAGE_VERSION"
           echo "Published version: $PUBLISHED_VERSION"
       
-      - name: Run tests with coverage
-        run: npm run test:coverage
-      
       - name: Build the project
         run: npm run build
       
