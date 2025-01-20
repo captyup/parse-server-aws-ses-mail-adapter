@@ -1,14 +1,14 @@
 # Parse Server AWS SES Mail Adapter
 
-這是一個用於 Parse Server 的 AWS SES 郵件發送適配器。
+This is an AWS SES mail adapter for Parse Server.
 
-## 安裝
+## Installation
 
 ```bash
 npm install parse-server-aws-ses-mail-adapter
 ```
 
-## 使用方法
+## Usage
 
 ```javascript
 const ParseServer = require('parse-server').ParseServer;
@@ -22,52 +22,52 @@ const mailAdapter = awsSesMailAdapter({
 });
 
 const api = new ParseServer({
-  // ... 其他設定
+  // ... other configurations
   emailAdapter: mailAdapter
 });
 ```
 
-## 設定選項
+## Configuration Options
 
-- `region`: AWS 區域
+- `region`: AWS Region
 - `accessKeyId`: AWS Access Key ID
 - `secretAccessKey`: AWS Secret Access Key
-- `from`: 寄件者的電子郵件地址
+- `from`: Sender's email address
 
-## 自訂電子郵件模板
+## Custom Email Templates
 
-你可以自訂驗證郵件的內容和主旨。在初始化適配器時，可以加入以下選項：
+You can customize the content and subject of verification emails. Add the following options when initializing the adapter:
 
 ```javascript
 const mailAdapter = awsSesMailAdapter({
-  // ... 其他設定
-  verificationBody: '親愛的 %username%，\n\n' +
-    '請驗證您的電子郵件地址 %email%\n' +
-    '點擊以下連結進行驗證：\n' +
+  // ... other configurations
+  verificationBody: 'Dear %username%,\n\n' +
+    'Please verify your email address %email%\n' +
+    'Click the following link to verify:\n' +
     '%link%\n\n' +
-    '謝謝！\n' +
+    'Thank you!\n' +
     '%appname%',
-  verificationSubject: '%appname% - 請驗證您的電子郵件',
-  // 重設密碼郵件設定
-  passwordResetBody: '親愛的 %username%，\n\n' +
-    '您已要求重設密碼。\n' +
-    '請點擊以下連結來重設密碼：\n' +
+  verificationSubject: '%appname% - Please Verify Your Email',
+  // Password reset email settings
+  passwordResetBody: 'Dear %username%,\n\n' +
+    'You have requested to reset your password.\n' +
+    'Click the following link to reset your password:\n' +
     '%link%\n\n' +
-    '如果這不是您本人的操作，請忽略此郵件。\n\n' +
-    '謝謝！\n' +
+    'If you did not request this, please ignore this email.\n\n' +
+    'Thank you!\n' +
     '%appname%',
-  passwordResetSubject: '%appname% - 密碼重設請求'
+  passwordResetSubject: '%appname% - Password Reset Request'
 });
 ```
 
-可用的變數：
-- `%username%`: 使用者名稱
-- `%email%`: 電子郵件地址
-- `%appname%`: 應用程式名稱
-- `%link%`: 驗證連結（用於電子郵件驗證）或重設密碼連結（用於密碼重設）
+Available variables:
+- `%username%`: Username
+- `%email%`: Email address
+- `%appname%`: Application name
+- `%link%`: Verification link (for email verification) or reset link (for password reset)
 
-如果沒有提供自訂模板，系統會使用預設的英文模板。
+If no custom templates are provided, the system will use default English templates.
 
-## 授權
+## License
 
 ISC
