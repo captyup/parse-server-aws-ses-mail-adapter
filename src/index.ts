@@ -17,11 +17,8 @@ module.exports=function(options: any){
        Content: {
          Simple: {
            Body: {
-             Text: {
-               Data: options.isHtml ? undefined : mail.body
-             },
              Html: {
-               Data: options.isHtml ? mail.body : undefined
+               Data: mail.body
              }
            },
            Subject: {

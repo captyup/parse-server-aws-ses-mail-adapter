@@ -18,8 +18,7 @@ const mailAdapter = awsSesMailAdapter({
   region: 'YOUR_AWS_REGION',
   accessKeyId: 'YOUR_AWS_ACCESS_KEY_ID',
   secretAccessKey: 'YOUR_AWS_SECRET_ACCESS_KEY',
-  from: 'your-email@example.com',
-  isHtml: false // 設置為 true 如果要發送 HTML 格式的郵件
+  from: 'your-email@example.com'
 });
 
 const api = new ParseServer({
@@ -34,7 +33,6 @@ const api = new ParseServer({
 - `accessKeyId`: AWS Access Key ID
 - `secretAccessKey`: AWS Secret Access Key
 - `from`: 寄件者的電子郵件地址
-- `isHtml`: 是否發送 HTML 格式的郵件（預設為 false）
 
 ## 自訂電子郵件模板
 
