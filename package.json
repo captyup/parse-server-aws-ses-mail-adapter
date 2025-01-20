@@ -1,6 +1,6 @@
 {
   "name": "parse-server-aws-ses-mail-adapter",
-  "version": "0.7.1",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

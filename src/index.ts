@@ -4,7 +4,7 @@ type Mail={
   subject:string,
   text:string
 }
-type SendVerificationEmailOptions={
+type SendEmailOptions={
   link:string,
   user:any,
   appName:string
@@ -34,7 +34,7 @@ module.exports=function(options: any){
        }
      }))
    };
-   var sendVerificationEmail=async(params: SendVerificationEmailOptions)=>{
+   var sendVerificationEmail=async(params: SendEmailOptions)=>{
     const verificationBodyTemplate = options.verificationBody ?? 'Hi,\n\n' +
       'You are being asked to confirm the e-mail address ' +
       '%email%' +
@@ -63,8 +63,37 @@ module.exports=function(options: any){
       text: verificationBody
     })
    }
+   var sendPasswordResetEmail=async(params: SendEmailOptions)=>{
+    const resetPasswordBodyTemplate = options.resetPasswordBody ?? 'Hi,\n\n' +
+      'You requested to reset your password for ' +
+      '%appname%' +
+       " (your username is '%username%' )" 
+      '.\n\n' +
+      '' +
+      'Click here to reset it:\n' +
+      '%link%';
+    const resetPasswordSubjectTemplate = options.resetPasswordSubject ?? 'Password Reset for ' + '%appname%';
+    const resetPasswordBody = resetPasswordBodyTemplate
+      .replace('%email%', params.user.get('email'))
+      .replace('%appname%', params.appName)
+      .replace('%link%', params.link)
+      .replace('%username%', params.user.get('username'));
+    const resetPasswordSubject = resetPasswordSubjectTemplate
+      .replace('%email%', params.user.get('email'))
+      .replace('%appname%', params.appName)
+      .replace('%link%', params.link)
+      .replace('%username%', params.user.get('username'));
+    const to = params.user.get('email');
+   
+    return sendMail({
+      to: to,
+      subject: resetPasswordSubject,
+      text: resetPasswordBody
+    })
+   }
    return {
       sendMail: sendMail,
-      sendVerificationEmail: sendVerificationEmail
+      sendVerificationEmail: sendVerificationEmail,
+      sendPasswordResetEmail: sendPasswordResetEmail
    }
   };

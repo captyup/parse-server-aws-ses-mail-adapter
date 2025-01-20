@@ -47,7 +47,16 @@ const mailAdapter = awsSesMailAdapter({
     '%link%\n\n' +
     '謝謝！\n' +
     '%appname%',
-  verificationSubject: '%appname% - 請驗證您的電子郵件'
+  verificationSubject: '%appname% - 請驗證您的電子郵件',
+  // 重設密碼郵件設定
+  passwordResetBody: '親愛的 %username%，\n\n' +
+    '您已要求重設密碼。\n' +
+    '請點擊以下連結來重設密碼：\n' +
+    '%link%\n\n' +
+    '如果這不是您本人的操作，請忽略此郵件。\n\n' +
+    '謝謝！\n' +
+    '%appname%',
+  passwordResetSubject: '%appname% - 密碼重設請求'
 });
 ```
 
@@ -55,7 +64,7 @@ const mailAdapter = awsSesMailAdapter({
 - `%username%`: 使用者名稱
 - `%email%`: 電子郵件地址
 - `%appname%`: 應用程式名稱
-- `%link%`: 驗證連結
+- `%link%`: 驗證連結（用於電子郵件驗證）或重設密碼連結（用於密碼重設）
 
 如果沒有提供自訂模板，系統會使用預設的英文模板。
 
