@@ -36,6 +36,31 @@ const api = new ParseServer({
 - `from`: 寄件者的電子郵件地址
 - `isHtml`: 是否發送 HTML 格式的郵件（預設為 false）
 
+## 自訂電子郵件模板
+
+你可以自訂驗證郵件的內容和主旨。在初始化適配器時，可以加入以下選項：
+
+```javascript
+const mailAdapter = awsSesMailAdapter({
+  // ... 其他設定
+  verificationBody: '親愛的 %username%，\n\n' +
+    '請驗證您的電子郵件地址 %email%\n' +
+    '點擊以下連結進行驗證：\n' +
+    '%link%\n\n' +
+    '謝謝！\n' +
+    '%appname%',
+  verificationSubject: '%appname% - 請驗證您的電子郵件'
+});
+```
+
+可用的變數：
+- `%username%`: 使用者名稱
+- `%email%`: 電子郵件地址
+- `%appname%`: 應用程式名稱
+- `%link%`: 驗證連結
+
+如果沒有提供自訂模板，系統會使用預設的英文模板。
+
 ## 授權
 
 ISC

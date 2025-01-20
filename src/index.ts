@@ -4,9 +4,14 @@ type Mail={
   subject:string,
   body:string
 }
+type SendVerificationEmailOptions={
+  link:string,
+  user:any,
+  appName:string
+}
 module.exports=function(options: any){
    const client = new SESv2Client({ region: options.region, credentials: { accessKeyId: options.accessKeyId, secretAccessKey: options.secretAccessKey } });
-   var sendMail=function(mail: Mail){
+   var sendMail=async (mail: Mail)=>{
      return client.send(new SendEmailCommand({
        FromEmailAddress: options.from,
        Content: {
@@ -32,8 +37,37 @@ module.exports=function(options: any){
        }
      }))
    };
-
+   var sendVerificationEmail=async(params: SendVerificationEmailOptions)=>{
+    const verificationBodyTemplate = options.verificationBody ?? 'Hi,\n\n' +
+      'You are being asked to confirm the e-mail address ' +
+      '%email%' +
+      ' with ' +
+      '%appname%' +
+      '\n\n' +
+      '' +
+      'Click here to confirm it:\n' +
+      '%link%';
+    const subjectTemplate = options.verificationSubject ?? 'Please verify your e-mail for %appname%';
+    const verificationBody = verificationBodyTemplate
+      .replace('%email%', params.user.get('email'))
+      .replace('%appname%', params.appName)
+      .replace('%link%', params.link)
+      .replace('%username%', params.user.get('username'));
+    const verificationSubject = subjectTemplate
+      .replace('%email%', params.user.get('email'))
+      .replace('%appname%', params.appName)
+      .replace('%link%', params.link)
+      .replace('%username%', params.user.get('username'));
+    const to = params.user.get('email');
+   
+    return sendMail({
+      to: to,
+      subject: verificationSubject,
+      body: verificationBody
+    })
+   }
    return {
-      sendMail: sendMail
+      sendMail: sendMail,
+      sendVerificationEmail: sendVerificationEmail
    }
   };
