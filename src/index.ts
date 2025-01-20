@@ -2,7 +2,7 @@ import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
 type Mail={
   to:string,
   subject:string,
-  body:string
+  text:string
 }
 type SendVerificationEmailOptions={
   link:string,
@@ -19,7 +19,7 @@ module.exports=function(options: any){
          Simple: {
            Body: {
              Html: {
-               Data: mail.body
+               Data: mail.text
              }
            },
            Subject: {
@@ -67,10 +67,11 @@ module.exports=function(options: any){
     return sendMail({
       to: to,
       subject: verificationSubject,
-      body: verificationBody
+      text: verificationBody
     })
    }
    return {
       sendMail: sendMail,
+      sendVerificationEmail: sendVerificationEmail
    }
   };
