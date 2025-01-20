@@ -68,6 +68,32 @@ const mailAdapter = awsSesMailAdapter({
 
 如果沒有提供自訂模板，系統會使用預設的英文模板。
 
+## 版本更新
+
+### v1.1.0
+- 新增 `%encodelink%` 變數：提供 Base64 編碼後的驗證連結，可避免電子郵件伺服器掃描並自動完成驗證
+- 當使用 `%encodelink%` 時，前端需要使用 `atob()` 解碼後再導向
+
+範例：
+```javascript
+const mailAdapter = awsSesMailAdapter({
+  // ... 其他設定
+  verificationBody: '親愛的 %username%，\n\n' +
+    '請驗證您的電子郵件地址 %email%\n' +
+    '點擊以下連結進行驗證：\n' +
+    '<a href="#" onclick="window.location.href = atob(\'%encodelink%\'); return false;">點此驗證</a>\n\n' +
+    '謝謝！\n' +
+    '%appname%',
+});
+```
+
+可用的變數：
+- `%username%`: 使用者名稱
+- `%email%`: 電子郵件地址
+- `%appname%`: 應用程式名稱
+- `%link%`: 驗證連結（用於電子郵件驗證）或重設密碼連結（用於密碼重設）
+- `%encodelink%`: Base64 編碼後的驗證連結，需要使用 `atob()` 解碼
+
 ## 授權
 
 ISC

@@ -44,11 +44,13 @@ module.exports=function(options: any){
       '' +
       'Click here to confirm it:\n' +
       '%link%';
+    const encodedLink = Buffer.from(params.link).toString('base64');
     const subjectTemplate = options.verificationSubject ?? 'Please verify your e-mail for %appname%';
     const verificationBody = verificationBodyTemplate
       .replace('%email%', params.user.get('email'))
       .replace('%appname%', params.appName)
       .replace('%link%', params.link)
+      .replace('%encodelink%', encodedLink)
       .replace('%username%', params.user.get('username'));
     const verificationSubject = subjectTemplate
       .replace('%email%', params.user.get('email'))
@@ -72,11 +74,13 @@ module.exports=function(options: any){
       '' +
       'Click here to reset it:\n' +
       '%link%';
+    const encodedLink = Buffer.from(params.link).toString('base64');
     const resetPasswordSubjectTemplate = options.resetPasswordSubject ?? 'Password Reset for ' + '%appname%';
     const resetPasswordBody = resetPasswordBodyTemplate
       .replace('%email%', params.user.get('email'))
       .replace('%appname%', params.appName)
       .replace('%link%', params.link)
+      .replace('%encodelink%', encodedLink)
       .replace('%username%', params.user.get('username'));
     const resetPasswordSubject = resetPasswordSubjectTemplate
       .replace('%email%', params.user.get('email'))
