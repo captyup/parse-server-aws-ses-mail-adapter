@@ -12,6 +12,7 @@ type SendVerificationEmailOptions={
 module.exports=function(options: any){
    const client = new SESv2Client({ region: options.region, credentials: { accessKeyId: options.accessKeyId, secretAccessKey: options.secretAccessKey } });
    var sendMail=async (mail: Mail)=>{
+    console.log(mail)
      return client.send(new SendEmailCommand({
        FromEmailAddress: options.from,
        Content: {
@@ -32,7 +33,10 @@ module.exports=function(options: any){
            mail.to
          ]
        }
-     })).catch(err=>{
+     })).then(res=>{
+      console.log(res)
+      return res
+     }).catch(err=>{
       console.log(err)
       throw err
     })
@@ -68,6 +72,5 @@ module.exports=function(options: any){
    }
    return {
       sendMail: sendMail,
-      sendVerificationEmail: sendVerificationEmail
    }
   };
