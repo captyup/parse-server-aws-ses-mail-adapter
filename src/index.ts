@@ -32,7 +32,10 @@ module.exports=function(options: any){
            mail.to
          ]
        }
-     }))
+     })).catch(err=>{
+      console.log(err)
+      throw err
+    })
    };
    var sendVerificationEmail=async(params: SendVerificationEmailOptions)=>{
     const verificationBodyTemplate = options.verificationBody ?? 'Hi,\n\n' +
