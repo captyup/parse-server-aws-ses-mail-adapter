@@ -45,16 +45,23 @@ module.exports=function(options: any){
       'Click here to confirm it:\n' +
       '%link%';
     const subjectTemplate = options.verificationSubject ?? 'Please verify your e-mail for %appname%';
+
+    // Extract token from link
+    const url = new URL(params.link);
+    const token = url.searchParams.get('token') ?? '';
+
     const verificationBody = verificationBodyTemplate
       .replace('%email%', params.user.get('email'))
       .replace('%appname%', params.appName)
       .replace('%link%', params.link)
-      .replace('%username%', params.user.get('username'));
+      .replace('%username%', params.user.get('username'))
+      .replace('%token%', token);
     const verificationSubject = subjectTemplate
       .replace('%email%', params.user.get('email'))
       .replace('%appname%', params.appName)
       .replace('%link%', params.link)
-      .replace('%username%', params.user.get('username'));
+      .replace('%username%', params.user.get('username'))
+      .replace('%token%', token);
     const to = params.user.get('email');
    
     return sendMail({
@@ -67,22 +74,29 @@ module.exports=function(options: any){
     const resetPasswordBodyTemplate = options.resetPasswordBody ?? 'Hi,\n\n' +
       'You requested to reset your password for ' +
       '%appname%' +
-       " (your username is '%username%' )" 
+       " (your username is '%username%' )"
       '.\n\n' +
       '' +
       'Click here to reset it:\n' +
       '%link%';
     const resetPasswordSubjectTemplate = options.resetPasswordSubject ?? 'Password Reset for ' + '%appname%';
+
+    // Extract token from link
+    const url = new URL(params.link);
+    const token = url.searchParams.get('token') ?? '';
+
     const resetPasswordBody = resetPasswordBodyTemplate
       .replace('%email%', params.user.get('email'))
       .replace('%appname%', params.appName)
       .replace('%link%', params.link)
-      .replace('%username%', params.user.get('username'));
+      .replace('%username%', params.user.get('username'))
+      .replace('%token%', token);
     const resetPasswordSubject = resetPasswordSubjectTemplate
       .replace('%email%', params.user.get('email'))
       .replace('%appname%', params.appName)
       .replace('%link%', params.link)
-      .replace('%username%', params.user.get('username'));
+      .replace('%username%', params.user.get('username'))
+      .replace('%token%', token);
     const to = params.user.get('email');
    
     return sendMail({
