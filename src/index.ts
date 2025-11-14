@@ -51,17 +51,17 @@ module.exports=function(options: any){
     const token = url.searchParams.get('token') ?? '';
 
     const verificationBody = verificationBodyTemplate
-      .replace('%email%', params.user.get('email'))
-      .replace('%appname%', params.appName)
-      .replace('%link%', params.link)
-      .replace('%username%', params.user.get('username'))
-      .replace('%token%', token);
+      .replaceAll('%email%', params.user.get('email'))
+      .replaceAll('%appname%', params.appName)
+      .replaceAll('%link%', params.link)
+      .replaceAll('%username%', params.user.get('username'))
+      .replaceAll('%token%', token);
     const verificationSubject = subjectTemplate
-      .replace('%email%', params.user.get('email'))
-      .replace('%appname%', params.appName)
-      .replace('%link%', params.link)
-      .replace('%username%', params.user.get('username'))
-      .replace('%token%', token);
+      .replaceAll('%email%', params.user.get('email'))
+      .replaceAll('%appname%', params.appName)
+      .replaceAll('%link%', params.link)
+      .replaceAll('%username%', params.user.get('username'))
+      .replaceAll('%token%', token);
     const to = params.user.get('email');
    
     return sendMail({
@@ -86,17 +86,17 @@ module.exports=function(options: any){
     const token = url.searchParams.get('token') ?? '';
 
     const resetPasswordBody = resetPasswordBodyTemplate
-      .replace('%email%', params.user.get('email'))
-      .replace('%appname%', params.appName)
-      .replace('%link%', params.link)
-      .replace('%username%', params.user.get('username'))
-      .replace('%token%', token);
+      .replaceAll('%email%', params.user.get('email'))
+      .replaceAll('%appname%', params.appName)
+      .replaceAll('%link%', params.link)
+      .replaceAll('%username%', params.user.get('username'))
+      .replaceAll('%token%', token);
     const resetPasswordSubject = resetPasswordSubjectTemplate
-      .replace('%email%', params.user.get('email'))
-      .replace('%appname%', params.appName)
-      .replace('%link%', params.link)
-      .replace('%username%', params.user.get('username'))
-      .replace('%token%', token);
+      .replaceAll('%email%', params.user.get('email'))
+      .replaceAll('%appname%', params.appName)
+      .replaceAll('%link%', params.link)
+      .replaceAll('%username%', params.user.get('username'))
+      .replaceAll('%token%', token);
     const to = params.user.get('email');
    
     return sendMail({
