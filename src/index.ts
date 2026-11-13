@@ -10,7 +10,12 @@ type SendEmailOptions={
   appName:string
 }
 module.exports=function(options: any){
-   const client = new SESv2Client({ region: options.region, credentials: { accessKeyId: options.accessKeyId, secretAccessKey: options.secretAccessKey } });
+   // Only pass static credentials when both keys are provided; otherwise let the
+   // AWS SDK resolve them via its default provider chain (env vars, IRSA, etc.).
+   const credentials = options.accessKeyId && options.secretAccessKey
+     ? { accessKeyId: options.accessKeyId, secretAccessKey: options.secretAccessKey }
+     : undefined;
+   const client = new SESv2Client({ region: options.region, ...(credentials ? { credentials } : {}) });
    var sendMail=async (mail: Mail)=>{
      return client.send(new SendEmailCommand({
        FromEmailAddress: options.from,
@@ -71,15 +76,16 @@ module.exports=function(options: any){
     })
    }
    var sendPasswordResetEmail=async(params: SendEmailOptions)=>{
-    const resetPasswordBodyTemplate = options.resetPasswordBody ?? 'Hi,\n\n' +
+    // `passwordResetBody` / `passwordResetSubject` are accepted as aliases.
+    const resetPasswordBodyTemplate = options.resetPasswordBody ?? options.passwordResetBody ?? 'Hi,\n\n' +
       'You requested to reset your password for ' +
       '%appname%' +
-       " (your username is '%username%' )"
+      " (your username is '%username%' )" +
       '.\n\n' +
       '' +
       'Click here to reset it:\n' +
       '%link%';
-    const resetPasswordSubjectTemplate = options.resetPasswordSubject ?? 'Password Reset for ' + '%appname%';
+    const resetPasswordSubjectTemplate = options.resetPasswordSubject ?? options.passwordResetSubject ?? 'Password Reset for ' + '%appname%';
 
     // Extract token from link
     const url = new URL(params.link);

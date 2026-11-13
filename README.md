@@ -30,9 +30,11 @@ const api = new ParseServer({
 ## Configuration Options
 
 - `region`: AWS Region
-- `accessKeyId`: AWS Access Key ID
-- `secretAccessKey`: AWS Secret Access Key
+- `accessKeyId`: AWS Access Key ID (optional)
+- `secretAccessKey`: AWS Secret Access Key (optional)
 - `from`: Sender's email address
+
+If `accessKeyId` and `secretAccessKey` are not both provided, the AWS SDK default credential provider chain is used (environment variables, shared config, IAM roles for service accounts, EKS Pod Identity, instance profile, etc.).
 
 ## Custom Email Templates
 
@@ -66,6 +68,8 @@ Available variables:
 - `%appname%`: Application name
 - `%link%`: Verification link (for email verification) or reset link (for password reset)
 - `%token%`: Token extracted from the link's query parameter (useful for two-step verification)
+
+The password reset options can also be written as `resetPasswordBody` and `resetPasswordSubject`; if both spellings are set, `resetPassword*` takes precedence.
 
 If no custom templates are provided, the system will use default English templates.
 
